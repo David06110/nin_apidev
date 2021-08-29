@@ -1,0 +1,29 @@
+.navbar-links {
+  justify-content: space-evenly;
+  background: #FF6978;
+  width: 100vw;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  padding: 8px;
+}
+
+.nav-link {
+  color: #214A7B;
+  justify-content: center;
+  padding: 0;
+}
+
+.nav-link svg {
+  height: 35px;
+  width: 35px;
+  margin: auto;
+  display: block;
+  // width: 375px; // ici c'est chaque icon donc pas de 375 pour chaque icon
+  // height: 65px;
+  // background-color: 214A7B;
+  // background-color: green;
+
+  // box-shadow: 0 3px 3px rgba(9, 46, 128, 0.623);
+
+}

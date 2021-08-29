@@ -1,0 +1,83 @@
+// Specific CSS for your home-page
+
+.logo {
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.logo img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.banner {
+  background-size: cover;
+  background-position: center;
+  padding:15px 0;
+}
+
+.banner h1 {
+  margin: 0;
+  padding: 5px;
+  color: #FF6978;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+  font-size: 45px;
+  font-weight: bold;
+}
+
+.banner h2 {
+  margin: 0;
+  padding: 5px;
+  font-weight: bold;
+  color: #09203be0;
+  text-align: center;
+  font-size: 19px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+}
+.banner p {
+  font-size: 10px;
+  padding: 5px;
+  color: #fbfcfde7;
+  text-align: center;
+  justify-content: center;
+  font-size: 15px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+}
+
+.banner .scanticket {
+  text-align: center;
+}
+
+.shopsbutton .btn-gradient {
+  background-color: #214A7B;
+  color: #ffffff;
+  padding: 35px 44px;
+  border-radius: 25px;
+  font-weight: bold;
+  text-align: justify;
+  object-position: center;
+  transition: background 0.3s ease;
+  border: 1px solid #0F60C4;
+}
+
+.btn-gradient {
+  background-color: #214A7B;
+  color: #ffffff;
+  padding: 50px 54px;
+  border-radius: 25px;
+  font-weight: bold;
+  text-align: justify;
+  object-position: center;
+  transition: background 0.3s ease;
+  border: 1px solid #0F60C4;
+}
+
+.btn-gradient:hover {
+  background: #214A7B;
+  color: white;
+}
