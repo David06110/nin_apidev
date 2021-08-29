@@ -1,7 +1,7 @@
 {"api_request": {
   "error": {},
   "resources": ["document"],
-  "status": "failure",
+  "status": "success",
   "status_code": 201,
   "url": "http://api.mindee.net/v1/products/David06110/niceinvoice/v1/predict"},
 "document": {

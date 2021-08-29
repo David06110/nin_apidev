@@ -43,8 +43,45 @@ class CashbacksController < ApplicationController
   end
 
   def read_response
-      @tt_current = @api_response[:document][:inference][:prediction][:total][:values][0][:content].to_d
-      # pry
+      @tt_current = @api_response.document.inference.prediction.address.values[0].content.to_d
+      
+      @ad = []
+      @ad_pieces = @api_response.document.inference.prediction.address.values
+      @ad_pieces.each do |ad_piece|
+        @ad << ad_piece.content
+      end
+      @ad_current = @ad.join(' ')
+
+      @nm = []
+      @api_response
+      .document
+      .inference
+      .prediction
+      .name
+      .values
+      .each do |nm|
+        @nm << nm.content
+      end
+      @name_current = @nm.join(' ')
+      # @date_current = Date.strptime( @api_response
+      #                                .document
+      #                                .inference
+      #                                .prediction
+      #                                .date
+      #                                .values[0]
+      #                                .content, "%d/%m/%Y")
+      @date_current = @api_response
+                        .document
+                        .inference
+                        .prediction
+                        .date
+                        .values[0]
+                        .content
+                        .split('-')
+                        .sum
+      pry
+
+
 
       if @tt_current.present? #&& @tt_current.is_an_int
         @new_cashback.amount = @tt_current * 0.05
