@@ -12,8 +12,8 @@
 
 .search-form-control .form-control {
   height: 3.5rem;
-  box-shadow: 0 2px 6px #214A7B;
-  border: 1px solid #214A7B;
+  box-shadow: 0 2px 6px $boxprimaire;
+  border: 1px solid $boxprimaire;
   border-radius: 10px;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .btn-flat:hover {
-  background: #FF6978;
+  background: $secondaire;
   color: white;
   border-radius: 10px;
 }

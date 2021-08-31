@@ -8,7 +8,7 @@ class CashbacksController < ApplicationController
   end
 
   def create
-    @new_cashback = Cashback.new(user: current_user)
+
 
     if params[:cashback].present?
       @file = params[:cashback][:ticket]
@@ -20,10 +20,13 @@ class CashbacksController < ApplicationController
         # request["Authorization"] = 'Token d717296e81ad03964a801c72e476b3b1'
         # request.set_form([['document', File.open(@file)]], 'multipart/form-data')
         # response = http.request(request)
-      # api /pause      @api_response = JSON.parse(response.body, object_class: OpenStruct)
-      # File.write("response.json", response.body, mode: "a")
-      static_response = File.read("response.json")
+        # @api_response = JSON.parse(response.body, object_class: OpenStruct)
+      # api /pause
+      # File.write("response_#{Time.now}.json", response.body, mode: "a")
+      static_response = File.read("responseanother.json")
       @api_response = JSON.parse(static_response, object_class: OpenStruct)
+      @short_response = @api_response.document.inference.prediction
+
       # pry
       #private start
       api_status()
@@ -36,68 +39,81 @@ class CashbacksController < ApplicationController
 
   def api_status
     if @api_response.api_request.status == "success"
-      read_response()
+      valid = scan_valid?()
+      valid == "ok" ? read_response() : (redirect_to new_cashback_path, notice: valid)
     else
       redirect_to new_cashback_path, notice: "Ticket non reconnu"
     end
   end
 
   def read_response
-      @tt_current = @api_response.document.inference.prediction.address.values[0].content.to_d
-      
+      @tt_current = @short_response.address.values[0].content.to_d
+
       @ad = []
-      @ad_pieces = @api_response.document.inference.prediction.address.values
+      @ad_pieces = @short_response.address.values
       @ad_pieces.each do |ad_piece|
         @ad << ad_piece.content
       end
       @ad_current = @ad.join(' ')
 
       @nm = []
-      @api_response
-      .document
-      .inference
-      .prediction
+      @short_response
       .name
       .values
       .each do |nm|
         @nm << nm.content
       end
       @name_current = @nm.join(' ')
-      # @date_current = Date.strptime( @api_response
-      #                                .document
-      #                                .inference
-      #                                .prediction
+      # @date_current = DateTime.new( @short_response
       #                                .date
       #                                .values[0]
-      #                                .content, "%d/%m/%Y")
-      @date_current = @api_response
-                        .document
-                        .inference
-                        .prediction
-                        .date
-                        .values[0]
-                        .content
-                        .split('-')
-                        .sum
-      pry
+      #                                .content
+      #                                .split('-')
+      #                                .join(',')).strftime("%d/%m/%Y")
+      # @date_current = @short_response
+      #                   .date
+      #                   .values[0]
+      #                   .content
+      #                   .split('-')
+      #                   .join(',')
 
 
 
-      if @tt_current.present? #&& @tt_current.is_an_int
+
+      if shop_valid?() && @vd_id.present? #@tt_current.present? #&& @tt_current.is_an_int
+        @new_cashback = Cashback.new(user: current_user)
         @new_cashback.amount = @tt_current * 0.05
-        @new_cashback.shop = Shop.first
+        @new_cashback.shop_id = @vd_id
 
         if @new_cashback.save!
-          sleep(0.5)
+          sleep(0.1)
           redirect_to '/dashboard'
-        else
-          render :new
         end
       else
-        render :new
+        redirect_to new_cashback_path, notice: "#{@name_current} au #{@ad_current} n'est pas éligible"
       end
+  end
 
+  def shop_valid?
+    vd_name = Shop.where(name: @name_current)
+    vd_address = Shop.where(address: @ad_current)
 
+    vd_name.each do |name|
+      vd_address.each do |address|
+        if name.id == address.id
+          @vd_id = name.id
+        else
+          false
+        end
+      end
+    end
+  end
 
+  def scan_valid?
+    return "Date illisible" if @short_response.date.confidence.to_d < 0.7
+    return "Nom illisible" if @short_response.name.confidence.to_d < 0.7
+    return "Adresse illisible" if @short_response.address.confidence.to_d < 0.7
+    return "Total illisible" if @short_response.total.confidence.to_d < 0.7
+    return "ok"
   end
 end # class

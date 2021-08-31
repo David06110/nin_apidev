@@ -23,7 +23,7 @@
 .banner h1 {
   margin: 0;
   padding: 5px;
-  color: #FF6978;
+  color: $secondaire;
   text-align: center;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
   font-size: 45px;
@@ -34,7 +34,7 @@
   margin: 0;
   padding: 5px;
   font-weight: bold;
-  color: #09203be0;
+  color: $primaire;
   text-align: center;
   font-size: 19px;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
@@ -54,7 +54,7 @@
 }
 
 .shopsbutton .btn-gradient {
-  background-color: #214A7B;
+  background-color: $btnprimaire;
   color: #ffffff;
   padding: 35px 44px;
   border-radius: 25px;
